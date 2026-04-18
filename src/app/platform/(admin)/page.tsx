@@ -46,8 +46,8 @@ export default async function PlatformAdminPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Tenants</h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-stone-400 sm:text-[15px]">
-          High-level access and billing controls across all venues. Trial length is fixed at signup (14
-          days); adjust status and subscription end to enforce access afterward.
+          Access, trial window, subscription, public visibility, and billing notes. Default trial at
+          signup is 14 days; you can extend or adjust trial end here.
         </p>
       </div>
 

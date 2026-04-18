@@ -10,10 +10,15 @@ import type { ActionResult } from '@/types/actions'
 const updateSchema = z.object({
   restaurantId: z.string().uuid(),
   accessStatus: z.enum(['trial', 'active', 'readonly', 'suspended']),
+  trialEndsAt: z
+    .string()
+    .min(1, 'Trial end date is required.')
+    .refine((s) => !Number.isNaN(new Date(s).getTime()), 'Invalid trial end date.'),
   subscriptionEndsAt: z
     .preprocess((v) => (v === '' || v === undefined ? null : v), z.string().nullable().optional()),
   billingNotes: z
     .preprocess((v) => (v === '' || v === undefined ? null : v), z.string().max(5000).nullable().optional()),
+  isPublished: z.enum(['true', 'false']).transform((v) => v === 'true'),
 })
 
 async function assertPlatformAdmin(): Promise<ActionResult | null> {
@@ -96,8 +101,10 @@ export async function platformRestaurantUpdateAction(
   const raw = {
     restaurantId: formData.get('restaurantId'),
     accessStatus: formData.get('accessStatus'),
+    trialEndsAt: formData.get('trialEndsAt'),
     subscriptionEndsAt: formData.get('subscriptionEndsAt'),
     billingNotes: formData.get('billingNotes'),
+    isPublished: formData.get('isPublished'),
   }
 
   const parsed = updateSchema.safeParse(raw)
@@ -108,6 +115,14 @@ export async function platformRestaurantUpdateAction(
 
   const supabase = createClient()
 
+  const { data: existing } = await supabase
+    .from('restaurants')
+    .select('slug')
+    .eq('id', parsed.data.restaurantId)
+    .maybeSingle()
+
+  const trialEndsAtIso = new Date(parsed.data.trialEndsAt).toISOString()
+
   const subscriptionEndsAtIso =
     parsed.data.subscriptionEndsAt && parsed.data.subscriptionEndsAt.length > 0
       ? new Date(parsed.data.subscriptionEndsAt).toISOString()
@@ -117,8 +132,10 @@ export async function platformRestaurantUpdateAction(
     .from('restaurants')
     .update({
       access_status: parsed.data.accessStatus,
+      trial_ends_at: trialEndsAtIso,
       subscription_ends_at: subscriptionEndsAtIso,
       billing_notes: parsed.data.billingNotes ?? null,
+      is_published: parsed.data.isPublished,
     })
     .eq('id', parsed.data.restaurantId)
 
@@ -126,5 +143,8 @@ export async function platformRestaurantUpdateAction(
 
   revalidatePath('/platform')
   revalidatePath('/dashboard')
+  if (existing?.slug) {
+    revalidatePath(`/${existing.slug}`)
+  }
   return { success: true, message: 'Tenant settings saved.' }
 }

@@ -67,22 +67,31 @@ export function PlatformTenantEditForm({
               rel="noopener noreferrer"
               className="mt-1 inline-flex items-center gap-1 text-sm text-amber-500/90 hover:text-amber-400"
             >
-              Open public site
+              Open public page
               <ExternalLink className="h-3.5 w-3.5" aria-hidden />
             </a>
           </div>
-          <p className="text-xs text-stone-500">
-            Trial ends{' '}
-            <time className="font-medium text-stone-300" dateTime={r.trial_ends_at}>
-              {new Date(r.trial_ends_at).toLocaleString(undefined, {
-                dateStyle: 'medium',
-                timeStyle: 'short',
-              })}
-            </time>
-          </p>
         </div>
 
         <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor={`pub-${r.id}`} className="text-stone-400">
+              Public visibility
+            </Label>
+            <select
+              id={`pub-${r.id}`}
+              name="isPublished"
+              defaultValue={r.is_published ? 'true' : 'false'}
+              className={cn(
+                'h-10 w-full rounded-lg border border-stone-700 bg-stone-950/80 px-3 text-sm text-stone-100',
+                'shadow-inner shadow-black/20 outline-none transition-[box-shadow,border-color]',
+                'focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/25'
+              )}
+            >
+              <option value="true">Live — guest URL works when entitlement allows</option>
+              <option value="false">Draft — page not shown publicly</option>
+            </select>
+          </div>
           <div className="space-y-2">
             <Label htmlFor={`access-${r.id}`} className="text-stone-400">
               Access status
@@ -103,17 +112,31 @@ export function PlatformTenantEditForm({
               <option value="suspended">Suspended</option>
             </select>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor={`sub-${r.id}`} className="text-stone-400">
-              Subscription ends
-            </Label>
-            <Input
-              id={`sub-${r.id}`}
-              type="datetime-local"
-              name="subscriptionEndsAt"
-              defaultValue={toDatetimeLocalValue(r.subscription_ends_at)}
-              className="border-stone-700 bg-stone-950/80 text-stone-100 focus-visible:ring-amber-500/30"
-            />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor={`trial-${r.id}`} className="text-stone-400">
+                Trial ends
+              </Label>
+              <Input
+                id={`trial-${r.id}`}
+                type="datetime-local"
+                name="trialEndsAt"
+                defaultValue={toDatetimeLocalValue(r.trial_ends_at)}
+                className="border-stone-700 bg-stone-950/80 text-stone-100 focus-visible:ring-amber-500/30"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor={`sub-${r.id}`} className="text-stone-400">
+                Subscription ends
+              </Label>
+              <Input
+                id={`sub-${r.id}`}
+                type="datetime-local"
+                name="subscriptionEndsAt"
+                defaultValue={toDatetimeLocalValue(r.subscription_ends_at)}
+                className="border-stone-700 bg-stone-950/80 text-stone-100 focus-visible:ring-amber-500/30"
+              />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor={`notes-${r.id}`} className="text-stone-400">
