@@ -1,3 +1,4 @@
+import { restaurantEntitlementPublic } from '@/lib/access/restaurant-access'
 import { createClient } from '@/lib/supabase/server'
 import type { MenuCategoryWithItems } from '@/types/menu'
 
@@ -8,10 +9,13 @@ export async function getRestaurantBySlug(slug: string) {
     .from('restaurants')
     .select('*')
     .eq('slug', slug)
-    .eq('is_published', true)
     .single()
 
   if (rErr || !restaurant) return null
+
+  // Enforce same rules as anon RLS + restaurant_entitlement_public. Authenticated owners
+  // otherwise bypass entitlement via auth_read_own_restaurant and could still load /[slug].
+  if (!restaurantEntitlementPublic(restaurant)) return null
 
   const { data: categoriesRaw } = await supabase
     .from('menu_categories')

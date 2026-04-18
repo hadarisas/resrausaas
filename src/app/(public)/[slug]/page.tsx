@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RestaurantPage({ params }: Props) {
   const data = await getRestaurantBySlug(params.slug)
-  if (!data || !data.restaurant.is_published) notFound()
+  if (!data) notFound()
 
   const { restaurant, categories, openingHours } = data
   const ThemeComponent = themeComponents[restaurant.theme as ThemeName] ?? themeComponents.modern

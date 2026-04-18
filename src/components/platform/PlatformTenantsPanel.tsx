@@ -128,7 +128,7 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
                       <div className="mt-0.5 font-mono text-xs text-stone-500">/{r.slug}</div>
                     </td>
                     <td className="whitespace-nowrap px-4 py-3">
-                      <PlatformAccessBadge status={r.access_status} />
+                      <PlatformAccessBadge restaurant={r} />
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-stone-400">
                       {r.is_published ? (
