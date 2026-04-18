@@ -13,9 +13,13 @@ export function useAuth(): AuthState {
   const [state, setState] = useState<AuthState>({ user: null, loading: true })
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setState({ user, loading: false })
-    })
+    const sync = () => {
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        setState({ user, loading: false })
+      })
+    }
+
+    sync()
 
     const {
       data: { subscription },
@@ -23,8 +27,17 @@ export function useAuth(): AuthState {
       setState({ user: session?.user ?? null, loading: false })
     })
 
-    return () => subscription.unsubscribe()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') sync()
+    }
+
+    document.addEventListener('visibilitychange', onVisible)
+
+    return () => {
+      subscription.unsubscribe()
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [supabase])
 
   return state
 }
