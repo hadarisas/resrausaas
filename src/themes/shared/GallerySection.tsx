@@ -47,7 +47,7 @@ export default function GallerySection({ theme, categories, coverImageUrl }: Gal
           {images.map((src, i) => (
             <motion.div
               key={i}
-              className="mb-3 break-inside-avoid overflow-hidden rounded-xl"
+              className="mb-3 break-inside-avoid overflow-hidden rounded-2xl shadow-md ring-1 ring-black/5"
               initial={{ opacity: 0, scale: 0.96 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}

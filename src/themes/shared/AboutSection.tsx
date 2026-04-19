@@ -51,7 +51,7 @@ export default function AboutSection({ theme, restaurant }: AboutSectionProps) {
             <div className="mt-8">
               <a
                 href="#menu"
-                className={`inline-flex items-center gap-2 text-sm font-semibold ${theme.text} underline underline-offset-4 opacity-80 hover:opacity-100 transition-opacity`}
+                className={`inline-flex items-center gap-2 rounded-lg px-1 py-1 text-sm font-semibold ${theme.text} underline underline-offset-4 transition-all hover:bg-black/[0.04] hover:opacity-100`}
               >
                 Explore our menu →
               </a>

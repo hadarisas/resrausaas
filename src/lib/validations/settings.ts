@@ -14,6 +14,10 @@ export const restaurantInfoSchema = z.object({
   phone: z.string().max(30).optional(),
   email: z.string().email().optional().or(z.literal('')),
   websiteUrl: z.string().url().optional().or(z.literal('')),
+  coverImageUrl: z.preprocess(
+    (val) => (val === undefined || val === null ? '' : val),
+    z.union([z.string().url({ message: 'Cover image must be a valid URL' }), z.literal('')])
+  ),
   maxPartySize: z.coerce.number().int().min(1).max(100).default(10),
   // z.coerce.boolean() treats any non-empty string as true — use preprocess instead
   isPublished: z.preprocess(val => val === 'true' || val === true, z.boolean()),

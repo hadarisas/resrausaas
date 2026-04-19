@@ -62,4 +62,9 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Restaurant owner dashboard — warm, readable shell (does not affect public pages) */
+  .dashboard-app {
+    @apply min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/25 to-stone-100;
+  }
 }

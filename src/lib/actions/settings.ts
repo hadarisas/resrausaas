@@ -46,6 +46,7 @@ export async function updateRestaurantInfoAction(
       phone: parsed.data.phone ?? null,
       email: parsed.data.email ?? null,
       website_url: parsed.data.websiteUrl ?? null,
+      cover_image_url: parsed.data.coverImageUrl === '' ? null : parsed.data.coverImageUrl,
       max_party_size: parsed.data.maxPartySize,
       is_published: parsed.data.isPublished,
     })

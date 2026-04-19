@@ -25,9 +25,12 @@ export default async function MenuPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Menu</h1>
-      </div>
+      <header className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Menu</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Categories and dishes shown on your public page.</p>
+        </div>
+      </header>
       <CategoryList categories={categories} />
     </div>
   )

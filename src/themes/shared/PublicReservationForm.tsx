@@ -1,5 +1,6 @@
 'use client'
 import { useFormState } from 'react-dom'
+import { CheckCircle2 } from 'lucide-react'
 import { createPublicReservationAction } from '@/lib/actions/reservations'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -28,9 +29,10 @@ export default function PublicReservationForm({
 
   if ('success' in state && state.success) {
     return (
-      <div className="rounded-lg bg-green-50 p-6 text-center text-green-800">
-        <p className="text-lg font-semibold">🎉 Reservation submitted!</p>
-        <p className="mt-1 text-sm">We&apos;ll confirm your booking shortly via email.</p>
+      <div className="rounded-2xl border border-emerald-200/80 bg-gradient-to-b from-emerald-50 to-white p-8 text-center shadow-sm ring-1 ring-emerald-100/60">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" strokeWidth={1.75} aria-hidden />
+        <p className="mt-4 text-lg font-semibold text-emerald-900">Reservation submitted</p>
+        <p className="mt-2 text-sm text-emerald-800/90">We&apos;ll confirm your booking shortly via email.</p>
       </div>
     )
   }
@@ -40,29 +42,57 @@ export default function PublicReservationForm({
       <input type="hidden" name="restaurantId" value={restaurantId} />
 
       {'error' in state && state.error && (
-        <div className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{state.error}</div>
+        <div className="rounded-xl border border-red-200/80 bg-red-50/90 px-4 py-3 text-sm text-red-800 shadow-sm">
+          {state.error}
+        </div>
       )}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2 space-y-1.5">
           <Label htmlFor="pub-name">Full name *</Label>
-          <Input id="pub-name" name="guestName" placeholder="Jane Smith" required />
+          <Input
+            id="pub-name"
+            name="guestName"
+            placeholder="Jane Smith"
+            className="min-h-11 rounded-xl"
+            required
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="pub-email">Email *</Label>
-          <Input id="pub-email" name="guestEmail" type="email" placeholder="jane@example.com" required />
+          <Input
+            id="pub-email"
+            name="guestEmail"
+            type="email"
+            placeholder="jane@example.com"
+            className="min-h-11 rounded-xl"
+            required
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="pub-phone">Phone</Label>
-          <Input id="pub-phone" name="guestPhone" type="tel" placeholder="+1 (555) 000-0000" />
+          <Input
+            id="pub-phone"
+            name="guestPhone"
+            type="tel"
+            placeholder="+1 (555) 000-0000"
+            className="min-h-11 rounded-xl"
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="pub-date">Date *</Label>
-          <Input id="pub-date" name="reservationDate" type="date" min={today} required />
+          <Input
+            id="pub-date"
+            name="reservationDate"
+            type="date"
+            min={today}
+            className="min-h-11 rounded-xl"
+            required
+          />
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="pub-time">Time *</Label>
-          <Input id="pub-time" name="reservationTime" type="time" required />
+          <Input id="pub-time" name="reservationTime" type="time" className="min-h-11 rounded-xl" required />
         </div>
         <div className="sm:col-span-2 space-y-1.5">
           <Label htmlFor="pub-party">Party size *</Label>
@@ -73,18 +103,25 @@ export default function PublicReservationForm({
             min={1}
             max={maxPartySize}
             placeholder={`Up to ${maxPartySize} guests`}
+            className="min-h-11 rounded-xl"
             required
           />
         </div>
         <div className="sm:col-span-2 space-y-1.5">
           <Label htmlFor="pub-notes">Special requests</Label>
-          <Textarea id="pub-notes" name="notes" rows={2} placeholder="Dietary restrictions, special occasions…" />
+          <Textarea
+            id="pub-notes"
+            name="notes"
+            rows={2}
+            placeholder="Dietary restrictions, special occasions…"
+            className="min-h-[88px] rounded-xl"
+          />
         </div>
       </div>
 
       <Button
         type="submit"
-        className={`w-full ${buttonClassName}`}
+        className={`min-h-12 w-full rounded-xl text-base font-semibold ${buttonClassName}`}
         disabled={isPending}
       >
         {isPending ? 'Submitting…' : 'Request reservation'}

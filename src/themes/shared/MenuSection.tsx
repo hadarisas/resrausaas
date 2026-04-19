@@ -46,11 +46,12 @@ export default function MenuSection({ theme, categories }: MenuSectionProps) {
           {categories.map((cat) => (
             <button
               key={cat.id}
+              type="button"
               onClick={() => setActiveId(cat.id)}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+              className={`min-h-[44px] rounded-full px-5 py-2.5 text-sm font-medium transition-all active:scale-[0.98] ${
                 cat.id === activeId
-                  ? `${theme.accent} ${theme.accentFg}`
-                  : `border ${theme.border} ${theme.textMuted} hover:opacity-80`
+                  ? `${theme.accent} ${theme.accentFg} shadow-md`
+                  : `border ${theme.border} ${theme.textMuted} hover:opacity-90`
               }`}
             >
               {cat.name}
@@ -70,21 +71,21 @@ export default function MenuSection({ theme, categories }: MenuSectionProps) {
             {activeCat?.description && (
               <p className={`mb-8 text-center text-sm ${theme.textMuted}`}>{activeCat.description}</p>
             )}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               {activeCat?.items.map((item, i) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.04 }}
-                  className={`flex gap-4 rounded-xl border ${theme.border} ${theme.card} p-5`}
+                  className={`group flex gap-4 rounded-2xl border ${theme.border} ${theme.card} p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md`}
                 >
                   {item.image_url && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={item.image_url}
                       alt={item.name}
-                      className="h-20 w-20 shrink-0 rounded-lg object-cover"
+                      className="h-24 w-24 shrink-0 rounded-xl object-cover shadow-inner sm:h-20 sm:w-20"
                     />
                   )}
                   <div className="min-w-0 flex-1">

@@ -40,9 +40,9 @@ export default function OpeningHoursSection({ theme, openingHours, restaurant }:
                 return (
                   <div
                     key={day}
-                    className={`flex items-center justify-between rounded-lg px-4 py-2.5 text-sm transition-colors ${
+                    className={`flex items-center justify-between rounded-xl px-4 py-2.5 text-sm shadow-sm transition-colors ${
                       isToday
-                        ? `${theme.accent} ${theme.accentFg}`
+                        ? `${theme.accent} ${theme.accentFg} ring-1 ring-black/10`
                         : `${theme.card} ${theme.text}`
                     }`}
                   >

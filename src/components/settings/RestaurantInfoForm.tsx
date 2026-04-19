@@ -77,6 +77,21 @@ export default function RestaurantInfoForm({ restaurant }: RestaurantInfoFormPro
         <Textarea id="description" name="description" defaultValue={restaurant.description ?? ''} rows={3} placeholder="Tell guests about your restaurant…" />
       </div>
 
+      <div className="space-y-1.5">
+        <Label htmlFor="coverImageUrl">Hero / cover image URL</Label>
+        <Input
+          id="coverImageUrl"
+          name="coverImageUrl"
+          type="url"
+          defaultValue={restaurant.cover_image_url ?? ''}
+          placeholder="https://…"
+        />
+        <p className="text-xs text-muted-foreground">
+          Full-width image at the top of your public page. Use a high-resolution landscape photo (same role as the
+          Aurelia seed hero).
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="address">Address</Label>

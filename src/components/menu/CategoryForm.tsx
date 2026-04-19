@@ -40,6 +40,19 @@ export default function CategoryForm({ category, onClose }: CategoryFormProps) {
         <Textarea id="cat-description" name="description" defaultValue={category?.description ?? ''} rows={2} />
       </div>
 
+      <div className="space-y-1.5">
+        <Label htmlFor="cat-sort">Sort order</Label>
+        <Input
+          id="cat-sort"
+          name="sortOrder"
+          type="number"
+          min={0}
+          step={1}
+          defaultValue={category?.sort_order ?? 0}
+        />
+        <p className="text-xs text-muted-foreground">Controls category order on your public page (matches seed: Starters → Mains → Desserts).</p>
+      </div>
+
       <div className="flex gap-2">
         <Button type="submit" size="sm" disabled={isPending}>
           {isPending ? 'Saving…' : category ? 'Update' : 'Create'}

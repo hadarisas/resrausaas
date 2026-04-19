@@ -59,7 +59,11 @@ export async function updateCategoryAction(
   const supabase = createClient()
   const { error } = await supabase
     .from('menu_categories')
-    .update({ name: parsed.data.name, description: parsed.data.description ?? null })
+    .update({
+      name: parsed.data.name,
+      description: parsed.data.description ?? null,
+      sort_order: parsed.data.sortOrder,
+    })
     .eq('id', id)
 
   if (error) return { success: false, error: error.message }
@@ -150,6 +154,7 @@ export async function updateMenuItemAction(
     price: parsed.data.price,
     is_available: parsed.data.isAvailable,
     is_featured: parsed.data.isFeatured,
+    sort_order: parsed.data.sortOrder,
     ...(imageUrl ? { image_url: imageUrl } : {}),
   }
 

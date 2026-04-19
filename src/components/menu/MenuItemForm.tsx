@@ -24,6 +24,7 @@ export default function MenuItemForm({ item, categories, defaultCategoryId, onCl
   const action = item ? updateMenuItemAction : createMenuItemAction
   const [state, formAction, isPending] = useFormState(action, initialState)
   const [isAvailable, setIsAvailable] = useState(item?.is_available ?? true)
+  const [isFeatured, setIsFeatured] = useState(item?.is_featured ?? false)
   const [categoryId, setCategoryId] = useState(item?.category_id ?? defaultCategoryId ?? categories[0]?.id ?? '')
 
   if ('success' in state && state.success) {
@@ -35,6 +36,7 @@ export default function MenuItemForm({ item, categories, defaultCategoryId, onCl
       {item && <input type="hidden" name="id" value={item.id} />}
       <input type="hidden" name="categoryId" value={categoryId} />
       <input type="hidden" name="isAvailable" value={isAvailable ? 'true' : 'false'} />
+      <input type="hidden" name="isFeatured" value={isFeatured ? 'true' : 'false'} />
 
       {'error' in state && state.error && (
         <p className="text-sm text-destructive">{state.error}</p>
@@ -68,18 +70,36 @@ export default function MenuItemForm({ item, categories, defaultCategoryId, onCl
           <Input id="item-price" name="price" type="number" step="0.01" min="0" defaultValue={item?.price} required />
         </div>
         <div className="space-y-1.5">
+          <Label htmlFor="item-sort">Sort order</Label>
+          <Input
+            id="item-sort"
+            name="sortOrder"
+            type="number"
+            min={0}
+            step={1}
+            defaultValue={item?.sort_order ?? 0}
+          />
+          <p className="text-xs text-muted-foreground">Lower numbers appear first within the category.</p>
+        </div>
+        <div className="col-span-2 space-y-1.5">
           <Label htmlFor="item-image">Image</Label>
           <Input id="item-image" name="image" type="file" accept="image/jpeg,image/png,image/webp" className="text-sm" />
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Switch
-          checked={isAvailable}
-          onCheckedChange={setIsAvailable}
-          id="item-available"
-        />
-        <Label htmlFor="item-available" className="cursor-pointer">Available</Label>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8">
+        <div className="flex items-center gap-3">
+          <Switch checked={isAvailable} onCheckedChange={setIsAvailable} id="item-available" />
+          <Label htmlFor="item-available" className="cursor-pointer">
+            Available
+          </Label>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch checked={isFeatured} onCheckedChange={setIsFeatured} id="item-featured" />
+          <Label htmlFor="item-featured" className="cursor-pointer">
+            Featured (highlight on your public menu)
+          </Label>
+        </div>
       </div>
 
       <div className="flex gap-2">

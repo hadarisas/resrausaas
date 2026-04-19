@@ -38,20 +38,23 @@ export default async function SettingsPage() {
 
   return (
     <div className="max-w-2xl space-y-8">
-      <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Settings</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Branding, hours, theme, and publishing to your live site.</p>
+      </header>
 
-      <section className="space-y-6 rounded-xl border bg-white p-6 shadow-sm">
+      <section className="space-y-6 rounded-2xl border border-stone-200/80 bg-white/90 p-6 shadow-sm ring-1 ring-black/[0.03]">
         <h2 className="text-base font-semibold text-gray-900">Restaurant Info</h2>
         <LogoUploader currentLogoUrl={restaurant.logo_url} restaurantId={restaurant.id} />
         <RestaurantInfoForm restaurant={restaurant} />
       </section>
 
-      <section className="rounded-xl border bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-stone-200/80 bg-white/90 p-6 shadow-sm ring-1 ring-black/[0.03]">
         <h2 className="mb-4 text-base font-semibold text-gray-900">Opening Hours</h2>
         <OpeningHoursForm hours={hours ?? []} restaurantId={restaurant.id} />
       </section>
 
-      <section className="rounded-xl border bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-stone-200/80 bg-white/90 p-6 shadow-sm ring-1 ring-black/[0.03]">
         <h2 className="mb-4 text-base font-semibold text-gray-900">Theme</h2>
         <p className="mb-4 text-sm text-muted-foreground">
           Choose how your public restaurant page looks. Changes apply immediately.

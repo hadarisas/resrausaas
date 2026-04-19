@@ -8,9 +8,9 @@ interface FooterSectionProps {
 
 export default function FooterSection({ theme, restaurant }: FooterSectionProps) {
   return (
-    <footer className={`${theme.footerBg} border-t ${theme.border} px-6 py-12`}>
+    <footer className={`${theme.footerBg} border-t ${theme.border} px-6 py-14`}>
       <div className="mx-auto max-w-5xl">
-        <div className="grid gap-8 sm:grid-cols-3">
+        <div className="grid gap-10 sm:grid-cols-3">
           <div>
             <p className={`mb-1 text-lg font-bold ${theme.heading} ${theme.footerText}`}>
               {restaurant.name}
@@ -45,10 +45,28 @@ export default function FooterSection({ theme, restaurant }: FooterSectionProps)
 
           <div>
             <p className={`mb-3 text-xs uppercase tracking-widest ${theme.footerText} opacity-50`}>Quick Links</p>
-            <div className={`space-y-1.5 text-sm ${theme.footerText} opacity-80`}>
-              <p><a href="#menu" className="hover:opacity-100 transition-opacity">Menu</a></p>
-              <p><a href="#reserve" className="hover:opacity-100 transition-opacity">Reservations</a></p>
-              <p><a href="#hours" className="hover:opacity-100 transition-opacity">Hours &amp; Contact</a></p>
+            <div className={`space-y-2 text-sm ${theme.footerText} opacity-90`}>
+              <p>
+                <a href="#menu" className="rounded-sm underline-offset-4 transition-opacity hover:opacity-100 hover:underline">
+                  Menu
+                </a>
+              </p>
+              <p>
+                <a
+                  href="#reserve"
+                  className="rounded-sm underline-offset-4 transition-opacity hover:opacity-100 hover:underline"
+                >
+                  Reservations
+                </a>
+              </p>
+              <p>
+                <a
+                  href="#hours"
+                  className="rounded-sm underline-offset-4 transition-opacity hover:opacity-100 hover:underline"
+                >
+                  Hours &amp; Contact
+                </a>
+              </p>
             </div>
           </div>
         </div>

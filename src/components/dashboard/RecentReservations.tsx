@@ -10,8 +10,8 @@ interface RecentReservationsProps {
 
 export default function RecentReservations({ reservations }: RecentReservationsProps) {
   return (
-    <div className="rounded-xl border bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b px-6 py-4">
+    <div className="rounded-2xl border border-stone-200/80 bg-white/90 shadow-sm ring-1 ring-black/[0.03] backdrop-blur-sm">
+      <div className="flex items-center justify-between border-b border-stone-100 px-6 py-4">
         <h2 className="font-semibold text-gray-900">Upcoming Reservations</h2>
         <Link
           href="/dashboard/reservations"

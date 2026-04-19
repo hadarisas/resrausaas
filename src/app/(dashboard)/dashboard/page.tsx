@@ -31,7 +31,10 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Overview</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Today&apos;s reservations, revenue, and menu at a glance.</p>
+      </header>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <StatsCard label="Today&apos;s Reservations" value={stats.todayReservations} />

@@ -3,6 +3,21 @@
 -- Images: Unsplash URLs from marketing dummy — hero, about-style copy, menu, gallery.
 -- Idempotent: upserts by slug `aurelia` and replaces dependent rows.
 --
+-- Owner dashboard coverage (what restaurateurs can edit in the app):
+--   restaurants.* (INSERT … ON CONFLICT below)
+--     • slug, name, description, cuisine_type, address, city, phone, email, website_url
+--       → Settings → Restaurant Info (+ public URL slug).
+--     • logo_url, cover_image_url → Settings (logo: upload; hero: "Hero / cover image URL").
+--     • theme → Settings → Theme.
+--     • is_published, max_party_size → Settings → Restaurant Info.
+--     • trial_ends_at, subscription_ends_at, access_status, billing_notes → platform/admin only
+--       (not shown in owner Settings; seed sets active + long trial for demos).
+--   menu_categories / menu_items → Dashboard → Menu (categories, items, images, availability,
+--     featured flag, sort order — matches Starters/Mains/Desserts and dish ordering in seed).
+--   opening_hours → Settings → Opening Hours.
+--   reservations, revenue_entries → Dashboard → Reservations / Revenue (sample data only;
+--       editable or deletable in-app; not part of "restaurant profile" settings).
+--
 -- Optional: attach your auth user to this tenant for dashboard login:
 --   UPDATE profiles
 --   SET restaurant_id = (SELECT id FROM restaurants WHERE slug = 'aurelia')

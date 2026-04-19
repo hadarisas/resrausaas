@@ -42,21 +42,21 @@ export default async function RevenuePage({ searchParams }: Props) {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Revenue</h1>
-          <p className="text-sm text-muted-foreground">Total: {formatCurrency(total)}</p>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Revenue</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Total for this period: {formatCurrency(total)}</p>
         </div>
         <Suspense>
           <PeriodSelector current={period} />
         </Suspense>
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-stone-200/80 bg-white/90 p-6 shadow-sm ring-1 ring-black/[0.03]">
         <Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
           <RevenueChart data={revenueData} period={period} />
         </Suspense>
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-stone-200/80 bg-white/90 p-6 shadow-sm ring-1 ring-black/[0.03]">
         <h2 className="mb-4 text-base font-semibold text-gray-900">Add Entry</h2>
         <RevenueEntryForm />
       </div>

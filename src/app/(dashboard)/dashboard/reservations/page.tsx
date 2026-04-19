@@ -41,7 +41,10 @@ export default async function ReservationsPage({ searchParams }: Props) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Reservations</h1>
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Reservations</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Filter, edit, and track guest bookings.</p>
+      </header>
       <Suspense>
         <ReservationFilters />
       </Suspense>

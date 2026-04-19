@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import MenuItemForm from './MenuItemForm'
+import { Badge } from '@/components/ui/badge'
 import { formatCurrency } from '@/lib/utils/format'
 import type { MenuItem, MenuCategory } from '@/types/menu'
 
@@ -43,7 +44,14 @@ export default function MenuItemCard({ item, categories }: MenuItemCardProps) {
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-gray-900">{item.name}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="truncate text-sm font-medium text-gray-900">{item.name}</p>
+                {item.is_featured && (
+                  <Badge variant="secondary" className="shrink-0 text-[10px] font-semibold uppercase tracking-wide">
+                    Featured
+                  </Badge>
+                )}
+              </div>
               {item.description && (
                 <p className="truncate text-xs text-muted-foreground">{item.description}</p>
               )}

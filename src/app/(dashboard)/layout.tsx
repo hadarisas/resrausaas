@@ -39,11 +39,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const restaurantName = restaurant.name ?? 'My Restaurant'
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="dashboard-app flex min-h-screen">
       <AccessRedirect mode={accessMode} />
       <Sidebar restaurantName={restaurantName} />
-      <main className="flex-1 pb-16 md:pb-0 md:pl-64">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+      <main className="flex-1 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0 md:pl-64">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <ReadonlyBanner mode={accessMode} />
           {children}
         </div>

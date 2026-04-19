@@ -15,8 +15,8 @@ export default function RevenueSummary({ data }: RevenueSummaryProps) {
   const total = data.reduce((s, d) => s + d.amount, 0)
 
   return (
-    <div className="rounded-xl border bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b px-6 py-4">
+    <div className="rounded-2xl border border-stone-200/80 bg-white/90 shadow-sm ring-1 ring-black/[0.03] backdrop-blur-sm">
+      <div className="flex items-center justify-between border-b border-stone-100 px-6 py-4">
         <div>
           <h2 className="font-semibold text-gray-900">Weekly Revenue</h2>
           <p className="text-xl font-bold text-gray-900">{formatCurrency(total)}</p>
