@@ -92,7 +92,15 @@ export async function updateThemeAction(
   const supabase = createClient()
   const { error } = await supabase
     .from('restaurants')
-    .update({ theme: theme as 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal' })
+    .update({
+      theme: theme as
+        | 'fine-dining'
+        | 'fast-food'
+        | 'traditional'
+        | 'modern'
+        | 'minimal'
+        | 'lifestyle-cafe',
+    })
     .eq('id', restaurantId)
 
   if (error) return { success: false, error: error.message }

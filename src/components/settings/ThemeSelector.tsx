@@ -39,6 +39,13 @@ const THEMES = [
     preview: 'bg-white border',
     accent: 'bg-black',
   },
+  {
+    id: 'lifestyle-cafe',
+    name: 'Lifestyle / Café',
+    description: 'Soft pastels, gallery-first, social-ready',
+    preview: 'bg-gradient-to-br from-rose-100 to-orange-50',
+    accent: 'bg-rose-400',
+  },
 ] as const
 
 interface ThemeSelectorProps {

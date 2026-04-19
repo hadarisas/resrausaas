@@ -8,4 +8,10 @@ export interface ThemeProps {
   restaurantId: string
 }
 
-export type ThemeName = 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal'
+export type ThemeName =
+  | 'fine-dining'
+  | 'fast-food'
+  | 'traditional'
+  | 'modern'
+  | 'minimal'
+  | 'lifestyle-cafe'

@@ -11,7 +11,7 @@ export interface Restaurant {
   website_url: string | null
   logo_url: string | null
   cover_image_url: string | null
-  theme: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal'
+  theme: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal' | 'lifestyle-cafe'
   is_published: boolean
   max_party_size: number
   created_at: string

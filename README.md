@@ -40,7 +40,7 @@ The owner lands directly on the dashboard after signup — no manual setup requi
 
 ### Public landing pages
 
-Each restaurant is reachable at `/<slug>`. Pages use Incremental Static Regeneration (ISR, `revalidate = 60`) so they are fast and SEO-friendly. The theme (`fine-dining`, `fast-food`, `traditional`, `modern`, `minimal`) is stored in the DB and controls the full visual layout served to guests. Each page includes JSON-LD structured data and Open Graph metadata.
+Each restaurant is reachable at `/<slug>`. Pages use Incremental Static Regeneration (ISR, `revalidate = 60`) so they are fast and SEO-friendly. The theme (`fine-dining`, `fast-food`, `traditional`, `modern`, `minimal`, `lifestyle-cafe`) is stored in the DB and controls the full visual layout served to guests. Each page includes JSON-LD structured data and Open Graph metadata.
 
 ### Admin dashboard
 
@@ -90,7 +90,7 @@ resrausaas/
     │   ├── (public)/        # Marketing page, login, signup, /[slug]
     │   └── (dashboard)/     # Protected admin routes
     ├── components/          # auth/, dashboard/, menu/, reservations/, revenue/, settings/, ui/
-    ├── themes/              # 5 public page themes
+    ├── themes/              # 6 public page themes
     ├── lib/
     │   ├── actions/         # Server actions (auth, menu, reservations, revenue, settings)
     │   ├── queries/         # Read helpers (dashboard, menu, restaurant, revenue)
@@ -116,7 +116,7 @@ Open the **SQL Editor** in the Supabase dashboard and run each file by pasting i
 
 Creates:
 
-- 4 custom enums: `reservation_status`, `user_role`, `restaurant_theme`, `day_of_week`
+- 4 custom enums: `reservation_status`, `user_role`, `restaurant_theme` (includes `fine-dining`, `fast-food`, `traditional`, `modern`, `minimal`, and `lifestyle-cafe`), `day_of_week`
 - 7 tables: `restaurants`, `profiles`, `menu_categories`, `menu_items`, `opening_hours`, `reservations`, `revenue_entries`
 - All indexes and foreign keys
 - `set_updated_at()` trigger applied to all mutable tables
@@ -142,6 +142,15 @@ Creates:
 - Replaces affected RLS policies so anonymous reads and authenticated writes respect trial/subscription; platform admins can `SELECT`/`UPDATE` all restaurants
 
 Then optionally run **`003_seed.sql`** for demo data (see [Restaurant Demo Seed](#restaurant-demo-seed)).
+
+**Optional / follow-up migrations**
+
+| File | When to run |
+| ---- | ----------- |
+| `005_seed_aurelia_demo.sql` | Optional richer demo tenant (see repo comments in that file). |
+| `006_lifestyle_cafe_theme.sql` | **Only if** your database was created from an **older** `001_schema.sql` that did not list `lifestyle-cafe` on `restaurant_theme`. It adds the enum value idempotently. **Skip** if Step 1 used the current `001_schema.sql` (the value is already defined there). |
+
+If the app errors with `invalid input value for enum restaurant_theme: "lifestyle-cafe"`, run `006_lifestyle_cafe_theme.sql` once in the SQL Editor (or add the value manually as described in that migration).
 
 ### 3. Configure Auth
 
@@ -498,14 +507,15 @@ After **`004_access_platform_admin.sql`**, policies also enforce **trial/subscri
 
 ## Themes
 
-Five visual themes are available per restaurant, selectable from the Settings page:
+Six visual themes are available per restaurant, selectable from the Settings page:
 
-| Theme         | Visual language                                                   |
-| ------------- | ----------------------------------------------------------------- |
-| `fine-dining` | Dark stone background, Playfair Display serif, gold/amber accents |
-| `fast-food`   | Bold red/yellow palette, rounded corners, high-contrast CTAs      |
-| `traditional` | Warm cream background, serif body copy, brown borders             |
-| `modern`      | White space, sharp sans-serif, indigo/slate accents               |
-| `minimal`     | Pure white, monospace accents, no decoration                      |
+| Theme            | Visual language                                                   |
+| ---------------- | ----------------------------------------------------------------- |
+| `fine-dining`    | Dark stone background, Playfair Display serif, gold/amber accents |
+| `fast-food`      | Bold red/yellow palette, rounded corners, high-contrast CTAs      |
+| `traditional`    | Warm cream background, serif body copy, brown borders             |
+| `modern`         | White space, sharp sans-serif, indigo/slate accents               |
+| `minimal`        | Pure white, monospace accents, no decoration                      |
+| `lifestyle-cafe` | Soft blush/stone palette, rose accents, light café aesthetic        |
 
 Theme changes appear on the public page within 60 seconds (ISR revalidation window).

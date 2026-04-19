@@ -26,7 +26,8 @@ CREATE TYPE restaurant_theme AS ENUM (
   'fast-food',
   'traditional',
   'modern',
-  'minimal'
+  'minimal',
+  'lifestyle-cafe'
 );
 
 CREATE TYPE day_of_week AS ENUM (

@@ -13,8 +13,6 @@ export async function getRestaurantBySlug(slug: string) {
 
   if (rErr || !restaurant) return null
 
-  // Enforce same rules as anon RLS + restaurant_entitlement_public. Authenticated owners
-  // otherwise bypass entitlement via auth_read_own_restaurant and could still load /[slug].
   if (!restaurantEntitlementPublic(restaurant)) return null
 
   const { data: categoriesRaw } = await supabase

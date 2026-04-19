@@ -1,5 +1,4 @@
-// Run `supabase gen types typescript --linked > src/types/database.ts` to regenerate.
-// This is a manually maintained version.
+
 
 export type Json =
   | string
@@ -22,7 +21,7 @@ type RestaurantRow = {
   website_url: string | null
   logo_url: string | null
   cover_image_url: string | null
-  theme: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal'
+  theme: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal' | 'lifestyle-cafe'
   is_published: boolean
   max_party_size: number
   trial_ends_at: string
@@ -130,7 +129,7 @@ export type Database = {
           website_url?: string | null
           logo_url?: string | null
           cover_image_url?: string | null
-          theme?: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal'
+          theme?: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal' | 'lifestyle-cafe'
           is_published?: boolean
           max_party_size?: number
           trial_ends_at?: string
@@ -280,7 +279,7 @@ export type Database = {
     Enums: {
       reservation_status: 'pending' | 'confirmed' | 'seated' | 'completed' | 'cancelled' | 'no_show'
       user_role: 'owner' | 'staff'
-      restaurant_theme: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal'
+      restaurant_theme: 'fine-dining' | 'fast-food' | 'traditional' | 'modern' | 'minimal' | 'lifestyle-cafe'
       day_of_week: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
       restaurant_access_status: 'trial' | 'active' | 'readonly' | 'suspended'
     }

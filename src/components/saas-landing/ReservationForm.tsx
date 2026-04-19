@@ -14,7 +14,6 @@ type ReservationCopy = {
   description: string
 }
 
-/** Explicit colors: parent page uses `text-stone-100` — inputs must not inherit it */
 const controlClass =
   'h-11 rounded-xl border-stone-200 bg-white text-stone-900 placeholder:text-stone-500 shadow-sm [color-scheme:light] focus-visible:border-amber-500/50 focus-visible:ring-2 focus-visible:ring-amber-600/20'
 

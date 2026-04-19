@@ -1,28 +1,28 @@
 import type { ThemeProps } from '@/themes/types'
 import { themeConfigs } from '@/themes/shared/theme-config'
-import NavBar from '@/themes/shared/NavBar'
-import HeroSection from '@/themes/shared/HeroSection'
-import MenuSection from '@/themes/shared/MenuSection'
-import AboutSection from '@/themes/shared/AboutSection'
-import GallerySection from '@/themes/shared/GallerySection'
-import ReservationSection from '@/themes/shared/ReservationSection'
-import OpeningHoursSection from '@/themes/shared/OpeningHoursSection'
-import FooterSection from '@/themes/shared/FooterSection'
-import StickyReserveCTA from '@/themes/shared/StickyReserveCTA'
+import MinimalNavBar from './sections/MinimalNavBar'
+import MinimalHeroSection from './sections/MinimalHeroSection'
+import MinimalMenuSection from './sections/MinimalMenuSection'
+import MinimalAboutSection from './sections/MinimalAboutSection'
+import MinimalGallerySection from './sections/MinimalGallerySection'
+import MinimalReservationSection from './sections/MinimalReservationSection'
+import MinimalOpeningHoursSection from './sections/MinimalOpeningHoursSection'
+import MinimalFooterSection from './sections/MinimalFooterSection'
+import MinimalStickyReserveCTA from './sections/MinimalStickyReserveCTA'
 
 export default function MinimalTheme({ restaurant, categories, openingHours, restaurantId }: ThemeProps) {
   const t = themeConfigs['minimal']
   return (
-    <div className={`min-h-screen ${t.bg} ${t.text} ${t.heading}`}>
-      <NavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
-      <HeroSection theme={t} restaurant={restaurant} />
-      <MenuSection theme={t} categories={categories} />
-      <AboutSection theme={t} restaurant={restaurant} />
-      <GallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
-      <ReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
-      <OpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
-      <FooterSection theme={t} restaurant={restaurant} />
-      <StickyReserveCTA theme={t} />
+    <div className={`min-h-screen ${t.bg} ${t.text} pb-24 font-sans antialiased sm:pb-0`}>
+      <MinimalNavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
+      <MinimalHeroSection theme={t} restaurant={restaurant} />
+      <MinimalMenuSection theme={t} categories={categories} />
+      <MinimalAboutSection theme={t} restaurant={restaurant} />
+      <MinimalGallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
+      <MinimalReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
+      <MinimalOpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
+      <MinimalFooterSection theme={t} restaurant={restaurant} />
+      <MinimalStickyReserveCTA theme={t} />
     </div>
   )
 }

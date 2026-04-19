@@ -11,9 +11,6 @@ type Props = {
   className?: string
 }
 
-/**
- * Must be rendered inside a <form> — useFormStatus only works as a descendant of the form.
- */
 export function AuthSubmitButton({ label, pendingLabel, className }: Props) {
   const { pending } = useFormStatus()
 

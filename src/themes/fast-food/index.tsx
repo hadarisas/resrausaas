@@ -1,28 +1,32 @@
 import type { ThemeProps } from '@/themes/types'
 import { themeConfigs } from '@/themes/shared/theme-config'
-import NavBar from '@/themes/shared/NavBar'
-import HeroSection from '@/themes/shared/HeroSection'
-import MenuSection from '@/themes/shared/MenuSection'
-import AboutSection from '@/themes/shared/AboutSection'
-import GallerySection from '@/themes/shared/GallerySection'
-import ReservationSection from '@/themes/shared/ReservationSection'
-import OpeningHoursSection from '@/themes/shared/OpeningHoursSection'
-import FooterSection from '@/themes/shared/FooterSection'
-import StickyReserveCTA from '@/themes/shared/StickyReserveCTA'
+import FastFoodNavBar from './sections/FastFoodNavBar'
+import FastFoodHeroSection from './sections/FastFoodHeroSection'
+import FastFoodPromoBar from './sections/FastFoodPromoBar'
+import FastFoodQuickPicksSection from './sections/FastFoodQuickPicksSection'
+import FastFoodMenuSection from './sections/FastFoodMenuSection'
+import FastFoodAboutSection from './sections/FastFoodAboutSection'
+import FastFoodGallerySection from './sections/FastFoodGallerySection'
+import FastFoodReservationSection from './sections/FastFoodReservationSection'
+import FastFoodOpeningHoursSection from './sections/FastFoodOpeningHoursSection'
+import FastFoodFooterSection from './sections/FastFoodFooterSection'
+import FastFoodStickyReserveCTA from './sections/FastFoodStickyReserveCTA'
 
 export default function FastFoodTheme({ restaurant, categories, openingHours, restaurantId }: ThemeProps) {
   const t = themeConfigs['fast-food']
   return (
-    <div className={`min-h-screen ${t.bg} ${t.text} ${t.heading}`}>
-      <NavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
-      <HeroSection theme={t} restaurant={restaurant} />
-      <MenuSection theme={t} categories={categories} />
-      <AboutSection theme={t} restaurant={restaurant} />
-      <GallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
-      <ReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
-      <OpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
-      <FooterSection theme={t} restaurant={restaurant} />
-      <StickyReserveCTA theme={t} />
+    <div className={`min-h-screen ${t.bg} ${t.text} font-sans antialiased`}>
+      <FastFoodNavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
+      <FastFoodHeroSection theme={t} restaurant={restaurant} />
+      <FastFoodPromoBar theme={t} />
+      <FastFoodQuickPicksSection theme={t} categories={categories} />
+      <FastFoodMenuSection theme={t} categories={categories} />
+      <FastFoodAboutSection theme={t} restaurant={restaurant} />
+      <FastFoodGallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
+      <FastFoodReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
+      <FastFoodOpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
+      <FastFoodFooterSection theme={t} restaurant={restaurant} />
+      <FastFoodStickyReserveCTA theme={t} />
     </div>
   )
 }

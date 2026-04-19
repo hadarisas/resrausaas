@@ -1,28 +1,28 @@
 import type { ThemeProps } from '@/themes/types'
 import { themeConfigs } from '@/themes/shared/theme-config'
-import NavBar from '@/themes/shared/NavBar'
-import HeroSection from '@/themes/shared/HeroSection'
-import MenuSection from '@/themes/shared/MenuSection'
-import AboutSection from '@/themes/shared/AboutSection'
-import GallerySection from '@/themes/shared/GallerySection'
-import ReservationSection from '@/themes/shared/ReservationSection'
-import OpeningHoursSection from '@/themes/shared/OpeningHoursSection'
-import FooterSection from '@/themes/shared/FooterSection'
-import StickyReserveCTA from '@/themes/shared/StickyReserveCTA'
+import ModernNavBar from './sections/ModernNavBar'
+import ModernHeroSection from './sections/ModernHeroSection'
+import ModernMenuSection from './sections/ModernMenuSection'
+import ModernAboutSection from './sections/ModernAboutSection'
+import ModernGallerySection from './sections/ModernGallerySection'
+import ModernReservationSection from './sections/ModernReservationSection'
+import ModernOpeningHoursSection from './sections/ModernOpeningHoursSection'
+import ModernFooterSection from './sections/ModernFooterSection'
+import ModernStickyReserveCTA from './sections/ModernStickyReserveCTA'
 
 export default function ModernTheme({ restaurant, categories, openingHours, restaurantId }: ThemeProps) {
-  const t = themeConfigs['modern']
+  const t = themeConfigs.modern
   return (
-    <div className={`min-h-screen ${t.bg} ${t.text} ${t.heading}`}>
-      <NavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
-      <HeroSection theme={t} restaurant={restaurant} />
-      <MenuSection theme={t} categories={categories} />
-      <AboutSection theme={t} restaurant={restaurant} />
-      <GallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
-      <ReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
-      <OpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
-      <FooterSection theme={t} restaurant={restaurant} />
-      <StickyReserveCTA theme={t} />
+    <div className={`min-h-screen ${t.text} font-sans antialiased`}>
+      <ModernNavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
+      <ModernHeroSection theme={t} restaurant={restaurant} />
+      <ModernMenuSection theme={t} categories={categories} />
+      <ModernAboutSection theme={t} restaurant={restaurant} />
+      <ModernGallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
+      <ModernReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
+      <ModernOpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
+      <ModernFooterSection theme={t} restaurant={restaurant} />
+      <ModernStickyReserveCTA theme={t} />
     </div>
   )
 }

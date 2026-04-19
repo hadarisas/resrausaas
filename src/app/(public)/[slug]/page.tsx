@@ -8,11 +8,12 @@ import type { ThemeProps, ThemeName } from '@/themes/types'
 export const revalidate = 60
 
 const themeComponents: Record<ThemeName, React.ComponentType<ThemeProps>> = {
-  modern:        dynamic(() => import('@/themes/modern')) as React.ComponentType<ThemeProps>,
-  'fine-dining': dynamic(() => import('@/themes/fine-dining')) as React.ComponentType<ThemeProps>,
-  'fast-food':   dynamic(() => import('@/themes/fast-food')) as React.ComponentType<ThemeProps>,
-  traditional:   dynamic(() => import('@/themes/traditional')) as React.ComponentType<ThemeProps>,
-  minimal:       dynamic(() => import('@/themes/minimal')) as React.ComponentType<ThemeProps>,
+  modern:          dynamic(() => import('@/themes/modern')) as React.ComponentType<ThemeProps>,
+  'fine-dining':   dynamic(() => import('@/themes/fine-dining')) as React.ComponentType<ThemeProps>,
+  'fast-food':     dynamic(() => import('@/themes/fast-food')) as React.ComponentType<ThemeProps>,
+  traditional:     dynamic(() => import('@/themes/traditional')) as React.ComponentType<ThemeProps>,
+  minimal:         dynamic(() => import('@/themes/minimal')) as React.ComponentType<ThemeProps>,
+  'lifestyle-cafe': dynamic(() => import('@/themes/lifestyle-cafe')) as React.ComponentType<ThemeProps>,
 }
 
 interface Props {

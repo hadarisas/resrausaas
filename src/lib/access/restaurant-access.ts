@@ -2,11 +2,7 @@ import type { Database } from '@/types/database'
 
 type RestaurantRow = Database['public']['Tables']['restaurants']['Row']
 
-/**
- * Matches SQL `restaurant_entitlement_public(r)` — guest-facing URL is only "on" when
- * published AND (trial in future OR active subscription in future). Suspended/readonly
- * never qualify. Used so logged-in owners cannot bypass anon RLS when viewing /[slug].
- */
+
 export function restaurantEntitlementPublic(r: RestaurantRow): boolean {
   if (!r.is_published) return false
   const now = new Date()

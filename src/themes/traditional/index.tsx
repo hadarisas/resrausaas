@@ -1,28 +1,28 @@
 import type { ThemeProps } from '@/themes/types'
 import { themeConfigs } from '@/themes/shared/theme-config'
-import NavBar from '@/themes/shared/NavBar'
-import HeroSection from '@/themes/shared/HeroSection'
-import MenuSection from '@/themes/shared/MenuSection'
-import AboutSection from '@/themes/shared/AboutSection'
-import GallerySection from '@/themes/shared/GallerySection'
-import ReservationSection from '@/themes/shared/ReservationSection'
-import OpeningHoursSection from '@/themes/shared/OpeningHoursSection'
-import FooterSection from '@/themes/shared/FooterSection'
-import StickyReserveCTA from '@/themes/shared/StickyReserveCTA'
+import TraditionalNavBar from './sections/TraditionalNavBar'
+import TraditionalHeroSection from './sections/TraditionalHeroSection'
+import TraditionalAboutSection from './sections/TraditionalAboutSection'
+import TraditionalMenuSection from './sections/TraditionalMenuSection'
+import TraditionalGallerySection from './sections/TraditionalGallerySection'
+import TraditionalReservationSection from './sections/TraditionalReservationSection'
+import TraditionalOpeningHoursSection from './sections/TraditionalOpeningHoursSection'
+import TraditionalFooterSection from './sections/TraditionalFooterSection'
+import TraditionalStickyReserveCTA from './sections/TraditionalStickyReserveCTA'
 
 export default function TraditionalTheme({ restaurant, categories, openingHours, restaurantId }: ThemeProps) {
   const t = themeConfigs['traditional']
   return (
-    <div className={`min-h-screen ${t.bg} ${t.text} ${t.heading}`}>
-      <NavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
-      <HeroSection theme={t} restaurant={restaurant} />
-      <MenuSection theme={t} categories={categories} />
-      <AboutSection theme={t} restaurant={restaurant} />
-      <GallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
-      <ReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
-      <OpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
-      <FooterSection theme={t} restaurant={restaurant} />
-      <StickyReserveCTA theme={t} />
+    <div className={`min-h-screen ${t.text} font-sans antialiased`}>
+      <TraditionalNavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
+      <TraditionalHeroSection theme={t} restaurant={restaurant} />
+      <TraditionalAboutSection theme={t} restaurant={restaurant} />
+      <TraditionalMenuSection theme={t} categories={categories} />
+      <TraditionalGallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
+      <TraditionalReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
+      <TraditionalOpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
+      <TraditionalFooterSection theme={t} restaurant={restaurant} />
+      <TraditionalStickyReserveCTA theme={t} />
     </div>
   )
 }

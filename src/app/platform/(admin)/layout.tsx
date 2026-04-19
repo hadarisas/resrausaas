@@ -2,10 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { PlatformAppShell } from '@/components/platform/PlatformAppShell'
 
-/**
- * All routes under /platform except /platform/login (sibling route group).
- * No reliance on x-invoke-path — avoids accidental unauthenticated access when the header is missing.
- */
+
 export default async function PlatformAdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
   const {

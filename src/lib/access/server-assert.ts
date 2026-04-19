@@ -3,7 +3,6 @@
 import { createClient } from '@/lib/supabase/server'
 import type { ActionResult } from '@/types/actions'
 
-/** Call at the start of mutating server actions (menu, settings, reservations, revenue). */
 export async function assertRestaurantCanWrite(): Promise<ActionResult | null> {
   const supabase = createClient()
   const {

@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-/** FormData sends "true" | "false" strings; missing key should mean available=true, featured=false */
 const availableFromForm = z.preprocess((val) => {
   if (val === undefined || val === null || val === '') return true
   return val === 'true' || val === true
