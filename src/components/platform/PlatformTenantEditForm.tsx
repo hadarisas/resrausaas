@@ -10,10 +10,8 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import type { ActionResult } from '@/types/actions'
-import type { Database } from '@/types/database'
-import { AlertCircle, CheckCircle2, ExternalLink, Loader2 } from 'lucide-react'
-
-type Restaurant = Database['public']['Tables']['restaurants']['Row']
+import type { PlatformTenant } from '@/components/platform/types'
+import { AlertCircle, CheckCircle2, ExternalLink, Loader2, User } from 'lucide-react'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -41,7 +39,7 @@ export function PlatformTenantEditForm({
   restaurant: r,
   onSuccess,
 }: {
-  restaurant: Restaurant
+  restaurant: PlatformTenant
   /** e.g. `router.refresh()` so the directory reflects saved changes while the panel stays open. */
   onSuccess?: () => void
 }) {
@@ -70,6 +68,26 @@ export function PlatformTenantEditForm({
               Open public page
               <ExternalLink className="h-3.5 w-3.5" aria-hidden />
             </a>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-stone-700/80 bg-stone-950/50 px-4 py-3">
+          <div className="flex items-start gap-2">
+            <User className="mt-0.5 h-4 w-4 shrink-0 text-stone-500" aria-hidden />
+            <div className="min-w-0 text-sm">
+              <p className="text-xs font-medium uppercase tracking-wide text-stone-500">Account owner</p>
+              <p className="mt-1 font-medium text-stone-100">{r.owner_full_name ?? '—'}</p>
+              {r.owner_email ? (
+                <a
+                  href={`mailto:${r.owner_email}`}
+                  className="mt-0.5 block truncate text-amber-500/90 hover:text-amber-400"
+                >
+                  {r.owner_email}
+                </a>
+              ) : (
+                <p className="mt-0.5 text-stone-500">No login email on file</p>
+              )}
+            </div>
           </div>
         </div>
 

@@ -5,9 +5,10 @@ import type { ThemeConfig } from '@/themes/shared/theme-config'
 
 interface StickyReserveCTAProps {
   theme: ThemeConfig
+  enabled?: boolean
 }
 
-export default function FastFoodStickyReserveCTA({ theme }: StickyReserveCTAProps) {
+export default function FastFoodStickyReserveCTA({ theme, enabled = true }: StickyReserveCTAProps) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -30,16 +31,18 @@ export default function FastFoodStickyReserveCTA({ theme }: StickyReserveCTAProp
             <div className="flex gap-2">
               <a
                 href="#menu"
-                className="flex min-h-[52px] flex-1 items-center justify-center rounded-xl border-2 border-yellow-400 bg-yellow-400 text-sm font-black uppercase tracking-wide text-neutral-900 transition-transform active:scale-95"
+                className={`flex min-h-[52px] items-center justify-center rounded-xl border-2 border-yellow-400 bg-yellow-400 text-sm font-black uppercase tracking-wide text-neutral-900 transition-transform active:scale-95 ${enabled ? 'flex-1' : 'w-full'}`}
               >
                 Menu
               </a>
-              <a
-                href="#reserve"
-                className={`flex min-h-[52px] flex-[2] items-center justify-center rounded-xl text-sm font-black uppercase tracking-wide shadow-lg transition-transform active:scale-95 ${theme.accent} ${theme.accentFg}`}
-              >
-                Reserve now
-              </a>
+              {enabled && (
+                <a
+                  href="#reserve"
+                  className={`flex min-h-[52px] flex-[2] items-center justify-center rounded-xl text-sm font-black uppercase tracking-wide shadow-lg transition-transform active:scale-95 ${theme.accent} ${theme.accentFg}`}
+                >
+                  Reserve now
+                </a>
+              )}
             </div>
           </div>
         </motion.div>

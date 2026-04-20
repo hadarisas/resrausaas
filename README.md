@@ -149,6 +149,9 @@ Then optionally run **`003_seed.sql`** for demo data (see [Restaurant Demo Seed]
 | ---- | ----------- |
 | `005_seed_aurelia_demo.sql` | Optional richer demo tenant (see repo comments in that file). |
 | `006_lifestyle_cafe_theme.sql` | **Only if** your database was created from an **older** `001_schema.sql` that did not list `lifestyle-cafe` on `restaurant_theme`. It adds the enum value idempotently. **Skip** if Step 1 used the current `001_schema.sql` (the value is already defined there). |
+| `007_public_brochure_and_reservations.sql` | **If** you already ran `001`–`004` before this file existed: updates public RLS so **read-only** tenants keep a visible brochure site while **online reservations** stay gated to active trial/paid plans; stops auto-unpublishing on expiry. |
+| `008_platform_tenant_owner_directory.sql` | Adds `platform_tenant_owner_directory()` so the **platform admin** UI can list each tenant’s **owner full name** (from `profiles`) and **login email** (from `auth.users`). |
+| `009_platform_tenant_owner_directory_fix.sql` | Fixes the RPC so the caller is resolved when `auth.uid()` is null inside `SECURITY DEFINER`, and adds **RLS** so platform admins can read `profiles` for name fallback. |
 
 If the app errors with `invalid input value for enum restaurant_theme: "lifestyle-cafe"`, run `006_lifestyle_cafe_theme.sql` once in the SQL Editor (or add the value manually as described in that migration).
 

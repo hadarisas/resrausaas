@@ -1,5 +1,6 @@
 'use client'
 import { useState, useTransition } from 'react'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import { updateThemeAction } from '@/lib/actions/settings'
 import { cn } from '@/lib/utils'
 
@@ -54,6 +55,7 @@ interface ThemeSelectorProps {
 }
 
 export default function ThemeSelector({ currentTheme, restaurantId }: ThemeSelectorProps) {
+  const { isReadOnly } = useDashboardAccess()
   const [selected, setSelected] = useState(currentTheme)
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState('')
@@ -75,7 +77,7 @@ export default function ThemeSelector({ currentTheme, restaurantId }: ThemeSelec
           <button
             key={theme.id}
             onClick={() => handleSelect(theme.id)}
-            disabled={isPending}
+            disabled={isPending || isReadOnly}
             className={cn(
               'relative rounded-xl border-2 p-4 text-left transition-all hover:shadow-md',
               selected === theme.id

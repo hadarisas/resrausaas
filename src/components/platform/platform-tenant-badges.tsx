@@ -1,5 +1,8 @@
 import { Badge } from '@/components/ui/badge'
-import { restaurantEntitlementPublic } from '@/lib/access/restaurant-access'
+import {
+  restaurantEntitlementPublic,
+  restaurantEntitlementReservations,
+} from '@/lib/access/restaurant-access'
 import { cn } from '@/lib/utils'
 import type { Database } from '@/types/database'
 
@@ -40,16 +43,8 @@ export function accessBadgeProps(status: AccessStatus): { label: string; classNa
   }
 }
 
-/** Badge reflects whether guests can actually load /[slug] (dates + published + status), not only DB enum. */
+/** Badge reflects guest /[slug] visibility and whether online bookings are enabled. */
 export function platformTenantAccessBadgeProps(r: Row): { label: string; className: string; title: string } {
-  if (restaurantEntitlementPublic(r)) {
-    const b = accessBadgeProps(r.access_status)
-    return {
-      ...b,
-      title: 'Guest URL is live (published and trial/subscription in range).',
-    }
-  }
-
   if (!r.is_published) {
     return {
       label: 'Draft',
@@ -60,29 +55,20 @@ export function platformTenantAccessBadgeProps(r: Row): { label: string; classNa
 
   if (r.access_status === 'suspended') {
     const b = accessBadgeProps('suspended')
-    return { ...b, title: 'Suspended — guest site is not available.' }
+    return { ...b, title: 'Suspended — guest site is unavailable.' }
   }
 
-  if (r.access_status === 'readonly') {
-    const b = accessBadgeProps('readonly')
-    return { ...b, title: 'Read-only — guest site is not available.' }
-  }
-
-  if (r.access_status === 'trial') {
-    return {
-      label: 'Trial expired',
-      className:
-        'border-orange-500/45 bg-orange-500/12 text-orange-200 hover:bg-orange-500/18',
-      title: 'Trial end is in the past — guest URL is off until trial is extended or access changes.',
+  if (restaurantEntitlementPublic(r)) {
+    const b = accessBadgeProps(r.access_status)
+    if (restaurantEntitlementReservations(r)) {
+      return {
+        ...b,
+        title: 'Guest URL live — menu visible and online reservations enabled.',
+      }
     }
-  }
-
-  if (r.access_status === 'active') {
     return {
-      label: 'Subscription ended',
-      className:
-        'border-orange-500/45 bg-orange-500/12 text-orange-200 hover:bg-orange-500/18',
-      title: 'Subscription end is in the past — guest URL is off until renewed or access changes.',
+      ...b,
+      title: 'Guest URL live (brochure) — menu visible; online reservations disabled until the plan is active.',
     }
   }
 

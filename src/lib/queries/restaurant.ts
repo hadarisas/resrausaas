@@ -1,4 +1,7 @@
-import { restaurantEntitlementPublic } from '@/lib/access/restaurant-access'
+import {
+  getPublicPageAccess,
+  restaurantEntitlementPublic,
+} from '@/lib/access/restaurant-access'
 import { createClient } from '@/lib/supabase/server'
 import type { MenuCategoryWithItems } from '@/types/menu'
 
@@ -14,6 +17,8 @@ export async function getRestaurantBySlug(slug: string) {
   if (rErr || !restaurant) return null
 
   if (!restaurantEntitlementPublic(restaurant)) return null
+
+  const publicAccess = getPublicPageAccess(restaurant)
 
   const { data: categoriesRaw } = await supabase
     .from('menu_categories')
@@ -37,5 +42,6 @@ export async function getRestaurantBySlug(slug: string) {
     restaurant,
     categories,
     openingHours: openingHours ?? [],
+    publicAccess,
   }
 }

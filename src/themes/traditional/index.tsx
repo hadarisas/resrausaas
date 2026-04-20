@@ -1,3 +1,4 @@
+import { PublicEntitlementsChrome, PublicPoweredByFooter } from '@/components/public/PublicEntitlementsChrome'
 import type { ThemeProps } from '@/themes/types'
 import { themeConfigs } from '@/themes/shared/theme-config'
 import TraditionalNavBar from './sections/TraditionalNavBar'
@@ -10,19 +11,26 @@ import TraditionalOpeningHoursSection from './sections/TraditionalOpeningHoursSe
 import TraditionalFooterSection from './sections/TraditionalFooterSection'
 import TraditionalStickyReserveCTA from './sections/TraditionalStickyReserveCTA'
 
-export default function TraditionalTheme({ restaurant, categories, openingHours, restaurantId }: ThemeProps) {
+export default function TraditionalTheme({ restaurant, categories, openingHours, restaurantId, publicAccess }: ThemeProps) {
   const t = themeConfigs['traditional']
   return (
     <div className={`min-h-screen ${t.text} font-sans antialiased`}>
+      <PublicEntitlementsChrome publicAccess={publicAccess} />
       <TraditionalNavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
       <TraditionalHeroSection theme={t} restaurant={restaurant} />
       <TraditionalAboutSection theme={t} restaurant={restaurant} />
       <TraditionalMenuSection theme={t} categories={categories} />
       <TraditionalGallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
-      <TraditionalReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
+      <TraditionalReservationSection
+        theme={t}
+        restaurantId={restaurantId}
+        maxPartySize={restaurant.max_party_size}
+        reservationsEnabled={publicAccess.reservationsEnabled}
+      />
       <TraditionalOpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
       <TraditionalFooterSection theme={t} restaurant={restaurant} />
-      <TraditionalStickyReserveCTA theme={t} />
+      <PublicPoweredByFooter visible={publicAccess.showPoweredBy} />
+      <TraditionalStickyReserveCTA theme={t} enabled={publicAccess.reservationsEnabled} />
     </div>
   )
 }

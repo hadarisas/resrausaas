@@ -1,5 +1,6 @@
 'use client'
 import { useState, useTransition } from 'react'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import {
   updateReservationStatusAction,
   deleteReservationAction,
@@ -22,8 +23,10 @@ const STATUS_OPTIONS: ReservationStatus[] = [
 ]
 
 export default function ReservationTable({ reservations }: ReservationTableProps) {
+  const { isReadOnly } = useDashboardAccess()
   const [isPending, startTransition] = useTransition()
   const [editTarget, setEditTarget] = useState<Reservation | null>(null)
+  const actionsDisabled = isPending || isReadOnly
 
   function handleStatusChange(id: string, status: string) {
     startTransition(async () => {
@@ -83,7 +86,7 @@ export default function ReservationTable({ reservations }: ReservationTableProps
                   <Select
                     value={r.status}
                     onValueChange={(v) => handleStatusChange(r.id, v)}
-                    disabled={isPending}
+                    disabled={actionsDisabled}
                   >
                     <SelectTrigger className="h-8 w-36 text-xs">
                       <SelectValue />
@@ -107,6 +110,7 @@ export default function ReservationTable({ reservations }: ReservationTableProps
                       size="icon"
                       className="h-7 w-7"
                       onClick={() => setEditTarget(r)}
+                      disabled={isReadOnly}
                     >
                       <Pencil className="h-3.5 w-3.5" />
                     </Button>
@@ -115,7 +119,7 @@ export default function ReservationTable({ reservations }: ReservationTableProps
                       size="icon"
                       className="h-7 w-7 text-destructive"
                       onClick={() => handleDelete(r.id, r.guest_name)}
-                      disabled={isPending}
+                      disabled={actionsDisabled}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
@@ -148,7 +152,7 @@ export default function ReservationTable({ reservations }: ReservationTableProps
               <Select
                 value={r.status}
                 onValueChange={(v) => handleStatusChange(r.id, v)}
-                disabled={isPending}
+                disabled={actionsDisabled}
               >
                 <SelectTrigger className="h-8 flex-1 text-xs">
                   <SelectValue />
@@ -161,7 +165,13 @@ export default function ReservationTable({ reservations }: ReservationTableProps
                   ))}
                 </SelectContent>
               </Select>
-              <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => setEditTarget(r)}>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setEditTarget(r)}
+                disabled={isReadOnly}
+              >
                 <Pencil className="h-3.5 w-3.5" />
               </Button>
               <Button
@@ -169,7 +179,7 @@ export default function ReservationTable({ reservations }: ReservationTableProps
                 size="icon"
                 className="h-8 w-8 text-destructive"
                 onClick={() => handleDelete(r.id, r.guest_name)}
-                disabled={isPending}
+                disabled={actionsDisabled}
               >
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>

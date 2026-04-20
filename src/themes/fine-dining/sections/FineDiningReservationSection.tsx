@@ -1,13 +1,20 @@
 import type { ThemeConfig } from '@/themes/shared/theme-config'
 import PublicReservationForm from '@/themes/shared/PublicReservationForm'
+import { PublicReservationPanel } from '@/themes/shared/PublicReservationPanel'
 
 interface ReservationSectionProps {
   theme: ThemeConfig
   restaurantId: string
   maxPartySize: number
+  reservationsEnabled: boolean
 }
 
-export default function FineDiningReservationSection({ theme, restaurantId, maxPartySize }: ReservationSectionProps) {
+export default function FineDiningReservationSection({
+  theme,
+  restaurantId,
+  maxPartySize,
+  reservationsEnabled,
+}: ReservationSectionProps) {
   return (
     <section id="reserve" className={`scroll-mt-24 border-t border-stone-800/40 px-5 py-24 sm:px-8 md:py-32 ${theme.reservationBg}`}>
       <div className="mx-auto max-w-lg">
@@ -23,11 +30,13 @@ export default function FineDiningReservationSection({ theme, restaurantId, maxP
         <div
           className={`mt-14 border border-stone-800/80 p-8 shadow-2xl shadow-black/40 backdrop-blur-sm sm:p-10 ${theme.card}`}
         >
-          <PublicReservationForm
-            restaurantId={restaurantId}
-            maxPartySize={maxPartySize}
-            buttonClassName={theme.formButtonClass}
-          />
+          <PublicReservationPanel reservationsEnabled={reservationsEnabled} theme={theme}>
+            <PublicReservationForm
+              restaurantId={restaurantId}
+              maxPartySize={maxPartySize}
+              buttonClassName={theme.formButtonClass}
+            />
+          </PublicReservationPanel>
         </div>
       </div>
     </section>

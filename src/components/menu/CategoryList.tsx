@@ -1,6 +1,7 @@
 'use client'
 import { useState, useTransition } from 'react'
 import { Plus, Pencil, Trash2, ChevronDown, ChevronUp } from 'lucide-react'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import { deleteCategoryAction } from '@/lib/actions/menu'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -14,6 +15,7 @@ interface CategoryListProps {
 }
 
 export default function CategoryList({ categories }: CategoryListProps) {
+  const { isReadOnly } = useDashboardAccess()
   const [showNewCat, setShowNewCat] = useState(false)
   const [editingCat, setEditingCat] = useState<MenuCategory | null>(null)
   const [addItemFor, setAddItemFor] = useState<string | null>(null)
@@ -36,12 +38,14 @@ export default function CategoryList({ categories }: CategoryListProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button size="sm" onClick={() => setShowNewCat(true)}>
-          <Plus className="mr-1.5 h-4 w-4" />
-          Add category
-        </Button>
-      </div>
+      {!isReadOnly && (
+        <div className="flex justify-end">
+          <Button size="sm" onClick={() => setShowNewCat(true)}>
+            <Plus className="mr-1.5 h-4 w-4" />
+            Add category
+          </Button>
+        </div>
+      )}
 
       {categories.length === 0 && (
         <div className="rounded-xl border bg-white p-12 text-center">
@@ -65,42 +69,51 @@ export default function CategoryList({ categories }: CategoryListProps) {
               <span className="font-semibold text-gray-900">{category.name}</span>
               <span className="text-xs text-muted-foreground">({category.items.length} items)</span>
             </button>
-            <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7"
-                onClick={() => setEditingCat(category)}
-              >
-                <Pencil className="h-3.5 w-3.5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7 text-destructive hover:text-destructive"
-                onClick={() => handleDeleteCategory(category.id, category.name)}
-                disabled={isPending}
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </Button>
-            </div>
+            {!isReadOnly && (
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setEditingCat(category)}
+                >
+                  <Pencil className="h-3.5 w-3.5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7 text-destructive hover:text-destructive"
+                  onClick={() => handleDeleteCategory(category.id, category.name)}
+                  disabled={isPending}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Items */}
           {!collapsed[category.id] && (
             <div className="space-y-2 p-4">
               {category.items.map((item) => (
-                <MenuItemCard key={item.id} item={item} categories={allCategories} />
+                <MenuItemCard
+                  key={item.id}
+                  item={item}
+                  categories={allCategories}
+                  readOnly={isReadOnly}
+                />
               ))}
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full"
-                onClick={() => setAddItemFor(category.id)}
-              >
-                <Plus className="mr-1.5 h-4 w-4" />
-                Add item
-              </Button>
+              {!isReadOnly && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => setAddItemFor(category.id)}
+                >
+                  <Plus className="mr-1.5 h-4 w-4" />
+                  Add item
+                </Button>
+              )}
             </div>
           )}
         </div>

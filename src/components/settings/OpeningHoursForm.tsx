@@ -1,5 +1,6 @@
 'use client'
 import { useState, useTransition } from 'react'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import { updateOpeningHoursAction } from '@/lib/actions/settings'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
@@ -19,6 +20,7 @@ type HourState = {
 }
 
 export default function OpeningHoursForm({ hours, restaurantId }: OpeningHoursFormProps) {
+  const { isReadOnly } = useDashboardAccess()
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -69,6 +71,7 @@ export default function OpeningHoursForm({ hours, restaurantId }: OpeningHoursFo
               checked={!row.isClosed}
               onCheckedChange={(v) => update(i, 'isClosed', !v)}
               aria-label={`Toggle ${DAY_LABELS[row.dayOfWeek]}`}
+              disabled={isReadOnly}
             />
             {row.isClosed ? (
               <span className="text-sm text-muted-foreground">Closed</span>
@@ -79,6 +82,7 @@ export default function OpeningHoursForm({ hours, restaurantId }: OpeningHoursFo
                   value={row.openTime}
                   onChange={(e) => update(i, 'openTime', e.target.value)}
                   className="h-8 w-28 text-sm"
+                  disabled={isReadOnly}
                 />
                 <span className="text-muted-foreground">–</span>
                 <Input
@@ -86,6 +90,7 @@ export default function OpeningHoursForm({ hours, restaurantId }: OpeningHoursFo
                   value={row.closeTime}
                   onChange={(e) => update(i, 'closeTime', e.target.value)}
                   className="h-8 w-28 text-sm"
+                  disabled={isReadOnly}
                 />
               </div>
             )}
@@ -93,7 +98,7 @@ export default function OpeningHoursForm({ hours, restaurantId }: OpeningHoursFo
         ))}
       </div>
 
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending || isReadOnly}>
         {isPending ? 'Saving…' : 'Save hours'}
       </Button>
     </form>

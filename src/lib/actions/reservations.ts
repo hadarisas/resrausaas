@@ -1,6 +1,7 @@
 'use server'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { restaurantEntitlementReservations } from '@/lib/access/restaurant-access'
 import { assertRestaurantCanWrite } from '@/lib/access/server-assert'
 import { sendReservationStatusUpdateEmail } from '@/lib/email/reservation-emails'
 import {
@@ -33,6 +34,19 @@ export async function createPublicReservationAction(
   }
 
   const supabase = createClient()
+  const { data: restaurant, error: rErr } = await supabase
+    .from('restaurants')
+    .select('*')
+    .eq('id', parsed.data.restaurantId)
+    .single()
+
+  if (rErr || !restaurant || !restaurantEntitlementReservations(restaurant)) {
+    return {
+      success: false,
+      error: 'Reservations are not available for this restaurant right now.',
+    }
+  }
+
   const { error } = await supabase.from('reservations').insert({
     restaurant_id: parsed.data.restaurantId,
     guest_name: parsed.data.guestName,

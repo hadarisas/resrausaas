@@ -1,3 +1,4 @@
+import { PublicEntitlementsChrome, PublicPoweredByFooter } from '@/components/public/PublicEntitlementsChrome'
 import type { ThemeProps } from '@/themes/types'
 import { themeConfigs } from '@/themes/shared/theme-config'
 import FastFoodNavBar from './sections/FastFoodNavBar'
@@ -12,10 +13,11 @@ import FastFoodOpeningHoursSection from './sections/FastFoodOpeningHoursSection'
 import FastFoodFooterSection from './sections/FastFoodFooterSection'
 import FastFoodStickyReserveCTA from './sections/FastFoodStickyReserveCTA'
 
-export default function FastFoodTheme({ restaurant, categories, openingHours, restaurantId }: ThemeProps) {
+export default function FastFoodTheme({ restaurant, categories, openingHours, restaurantId, publicAccess }: ThemeProps) {
   const t = themeConfigs['fast-food']
   return (
     <div className={`min-h-screen ${t.bg} ${t.text} font-sans antialiased`}>
+      <PublicEntitlementsChrome publicAccess={publicAccess} />
       <FastFoodNavBar theme={t} restaurantName={restaurant.name} logoUrl={restaurant.logo_url} />
       <FastFoodHeroSection theme={t} restaurant={restaurant} />
       <FastFoodPromoBar theme={t} />
@@ -23,10 +25,16 @@ export default function FastFoodTheme({ restaurant, categories, openingHours, re
       <FastFoodMenuSection theme={t} categories={categories} />
       <FastFoodAboutSection theme={t} restaurant={restaurant} />
       <FastFoodGallerySection theme={t} categories={categories} coverImageUrl={restaurant.cover_image_url} />
-      <FastFoodReservationSection theme={t} restaurantId={restaurantId} maxPartySize={restaurant.max_party_size} />
+      <FastFoodReservationSection
+        theme={t}
+        restaurantId={restaurantId}
+        maxPartySize={restaurant.max_party_size}
+        reservationsEnabled={publicAccess.reservationsEnabled}
+      />
       <FastFoodOpeningHoursSection theme={t} openingHours={openingHours} restaurant={restaurant} />
       <FastFoodFooterSection theme={t} restaurant={restaurant} />
-      <FastFoodStickyReserveCTA theme={t} />
+      <PublicPoweredByFooter visible={publicAccess.showPoweredBy} />
+      <FastFoodStickyReserveCTA theme={t} enabled={publicAccess.reservationsEnabled} />
     </div>
   )
 }

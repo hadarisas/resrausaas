@@ -1,12 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import { PlatformTenantsPanel } from '@/components/platform/PlatformTenantsPanel'
 import { PlatformStatsStrip } from '@/components/platform/PlatformStatsStrip'
+import type { PlatformTenant } from '@/components/platform/types'
 import type { Database } from '@/types/database'
 import { AlertTriangle } from 'lucide-react'
 
 type Restaurant = Database['public']['Tables']['restaurants']['Row']
 
-function computeCounts(rows: Restaurant[]) {
+function computeCounts(rows: PlatformTenant[]) {
   return {
     total: rows.length,
     trial: rows.filter((r) => r.access_status === 'trial').length,
@@ -24,6 +25,30 @@ export default async function PlatformAdminPage() {
     .select('*')
     .order('created_at', { ascending: false })
 
+  const { data: ownerRows } = await supabase.rpc('platform_tenant_owner_directory')
+
+  const ownerByRestaurant = new Map(
+    (ownerRows ?? []).map((o) => [
+      o.restaurant_id,
+      { full_name: o.full_name ?? null, email: o.email ?? null },
+    ])
+  )
+
+  const restaurantIds = (restaurants ?? []).map((r) => r.id)
+  const { data: ownerProfiles } =
+    restaurantIds.length > 0
+      ? await supabase
+          .from('profiles')
+          .select('restaurant_id, full_name')
+          .eq('role', 'owner')
+          .in('restaurant_id', restaurantIds)
+      : { data: null as null }
+
+  const ownerNameFallback = new Map<string, string | null>()
+  for (const p of ownerProfiles ?? []) {
+    if (p.restaurant_id) ownerNameFallback.set(p.restaurant_id, p.full_name)
+  }
+
   if (error) {
     return (
       <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-5">
@@ -38,7 +63,15 @@ export default async function PlatformAdminPage() {
     )
   }
 
-  const rows = (restaurants ?? []) as Restaurant[]
+  const rows: PlatformTenant[] = (restaurants ?? []).map((r) => {
+    const o = ownerByRestaurant.get(r.id)
+    const nameFallback = ownerNameFallback.get(r.id) ?? null
+    return {
+      ...(r as Restaurant),
+      owner_full_name: o?.full_name ?? nameFallback,
+      owner_email: o?.email ?? null,
+    }
+  })
   const counts = computeCounts(rows)
 
   return (

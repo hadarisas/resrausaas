@@ -14,11 +14,9 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import type { Database } from '@/types/database'
+import type { PlatformTenant } from '@/components/platform/types'
 import { Building2, ExternalLink, Pencil, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
-
-type Restaurant = Database['public']['Tables']['restaurants']['Row']
 
 function formatShort(iso: string | null): string {
   if (!iso) return '—'
@@ -27,11 +25,11 @@ function formatShort(iso: string | null): string {
   return d.toLocaleString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })
 }
 
-export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[] }) {
+export function PlatformTenantsPanel({ restaurants }: { restaurants: PlatformTenant[] }) {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [selected, setSelected] = useState<Restaurant | null>(null)
+  const [selected, setSelected] = useState<PlatformTenant | null>(null)
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -40,7 +38,9 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
       (r) =>
         r.name.toLowerCase().includes(q) ||
         r.slug.toLowerCase().includes(q) ||
-        (r.billing_notes?.toLowerCase().includes(q) ?? false)
+        (r.billing_notes?.toLowerCase().includes(q) ?? false) ||
+        (r.owner_full_name?.toLowerCase().includes(q) ?? false) ||
+        (r.owner_email?.toLowerCase().includes(q) ?? false)
     )
   }, [restaurants, query])
 
@@ -52,7 +52,7 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
     }
   }, [restaurants, selected])
 
-  function openEdit(r: Restaurant) {
+  function openEdit(r: PlatformTenant) {
     setSelected(r)
     setSheetOpen(true)
   }
@@ -69,7 +69,7 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search tenants by name, slug, or billing note…"
+            placeholder="Search by restaurant, slug, owner name, email, or billing note…"
             className="h-10 border-stone-700 bg-stone-900/60 pl-10 text-sm text-stone-100 placeholder:text-stone-600 focus-visible:ring-amber-500/30"
             aria-label="Search tenants"
           />
@@ -102,10 +102,11 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
       {filtered.length > 0 && (
         <div className="overflow-hidden rounded-xl border border-stone-800/90 bg-stone-900/25 ring-1 ring-white/[0.03]">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[800px] border-collapse text-left text-sm">
+            <table className="w-full min-w-[960px] border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-stone-800 bg-stone-950/80 text-xs font-medium uppercase tracking-wide text-stone-500">
                   <th className="whitespace-nowrap px-4 py-3">Tenant</th>
+                  <th className="whitespace-nowrap px-4 py-3">Account owner</th>
                   <th className="whitespace-nowrap px-4 py-3">Access</th>
                   <th className="whitespace-nowrap px-4 py-3">Site</th>
                   <th className="whitespace-nowrap px-4 py-3">Trial ends</th>
@@ -123,9 +124,15 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
                     )}
                     onClick={() => openEdit(r)}
                   >
-                    <td className="max-w-[220px] px-4 py-3">
+                    <td className="max-w-[200px] px-4 py-3">
                       <div className="font-medium text-stone-100">{r.name}</div>
                       <div className="mt-0.5 font-mono text-xs text-stone-500">/{r.slug}</div>
+                    </td>
+                    <td className="max-w-[240px] px-4 py-3">
+                      <div className="text-stone-200">{r.owner_full_name ?? '—'}</div>
+                      <div className="mt-0.5 truncate text-xs text-stone-500" title={r.owner_email ?? undefined}>
+                        {r.owner_email ?? '—'}
+                      </div>
                     </td>
                     <td className="whitespace-nowrap px-4 py-3">
                       <PlatformAccessBadge restaurant={r} />
@@ -188,7 +195,26 @@ export function PlatformTenantsPanel({ restaurants }: { restaurants: Restaurant[
             <>
               <SheetHeader>
                 <SheetTitle className="pr-8">{selected.name}</SheetTitle>
-                <SheetDescription>Update access, subscription window, and billing notes.</SheetDescription>
+                <SheetDescription>
+                  <span className="block text-stone-400">
+                    Owner:{' '}
+                    <span className="text-stone-200">
+                      {selected.owner_full_name ?? '—'}
+                    </span>
+                    {selected.owner_email && (
+                      <>
+                        {' · '}
+                        <a
+                          href={`mailto:${selected.owner_email}`}
+                          className="text-amber-500/90 underline-offset-2 hover:underline"
+                        >
+                          {selected.owner_email}
+                        </a>
+                      </>
+                    )}
+                  </span>
+                  <span className="mt-2 block">Update access, subscription window, and billing notes.</span>
+                </SheetDescription>
               </SheetHeader>
               <PlatformTenantEditForm
                 key={`${selected.id}-${selected.updated_at ?? ''}`}

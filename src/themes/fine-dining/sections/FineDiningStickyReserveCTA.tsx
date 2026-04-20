@@ -5,16 +5,20 @@ import type { ThemeConfig } from '@/themes/shared/theme-config'
 
 interface StickyReserveCTAProps {
   theme: ThemeConfig
+  enabled?: boolean
 }
 
-export default function FineDiningStickyReserveCTA({ theme }: StickyReserveCTAProps) {
+export default function FineDiningStickyReserveCTA({ theme, enabled = true }: StickyReserveCTAProps) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
+    if (!enabled) return
     const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.55)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [enabled])
+
+  if (!enabled) return null
 
   return (
     <AnimatePresence>

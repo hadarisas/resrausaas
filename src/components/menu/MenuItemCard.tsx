@@ -13,9 +13,10 @@ import type { MenuItem, MenuCategory } from '@/types/menu'
 interface MenuItemCardProps {
   item: MenuItem
   categories: MenuCategory[]
+  readOnly?: boolean
 }
 
-export default function MenuItemCard({ item, categories }: MenuItemCardProps) {
+export default function MenuItemCard({ item, categories, readOnly = false }: MenuItemCardProps) {
   const [isPending, startTransition] = useTransition()
   const [isAvailable, setIsAvailable] = useState(item.is_available)
   const [showEdit, setShowEdit] = useState(false)
@@ -62,7 +63,7 @@ export default function MenuItemCard({ item, categories }: MenuItemCardProps) {
             <Switch
               checked={isAvailable}
               onCheckedChange={handleToggle}
-              disabled={isPending}
+              disabled={isPending || readOnly}
               aria-label="Toggle availability"
             />
             <span className="text-xs text-muted-foreground">
@@ -74,6 +75,7 @@ export default function MenuItemCard({ item, categories }: MenuItemCardProps) {
                 size="icon"
                 className="h-7 w-7"
                 onClick={() => setShowEdit(true)}
+                disabled={readOnly}
               >
                 <Pencil className="h-3.5 w-3.5" />
               </Button>
@@ -82,7 +84,7 @@ export default function MenuItemCard({ item, categories }: MenuItemCardProps) {
                 size="icon"
                 className="h-7 w-7 text-destructive hover:text-destructive"
                 onClick={handleDelete}
-                disabled={isPending}
+                disabled={isPending || readOnly}
               >
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>

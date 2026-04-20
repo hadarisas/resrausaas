@@ -41,7 +41,7 @@ export default async function RestaurantPage({ params }: Props) {
   const data = await getRestaurantBySlug(params.slug)
   if (!data) notFound()
 
-  const { restaurant, categories, openingHours } = data
+  const { restaurant, categories, openingHours, publicAccess } = data
   const ThemeComponent = themeComponents[restaurant.theme as ThemeName] ?? themeComponents.modern
 
   const jsonLd = {
@@ -70,6 +70,7 @@ export default async function RestaurantPage({ params }: Props) {
         categories={categories}
         openingHours={openingHours}
         restaurantId={restaurant.id}
+        publicAccess={publicAccess}
       />
     </>
   )

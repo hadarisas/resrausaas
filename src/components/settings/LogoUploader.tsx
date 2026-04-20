@@ -1,5 +1,6 @@
 'use client'
 import { useState, useTransition } from 'react'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import { uploadLogoAction } from '@/lib/actions/settings'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,6 +12,7 @@ interface LogoUploaderProps {
 }
 
 export default function LogoUploader({ currentLogoUrl, restaurantId }: LogoUploaderProps) {
+  const { isReadOnly } = useDashboardAccess()
   const [logoUrl, setLogoUrl] = useState(currentLogoUrl)
   const [error, setError] = useState('')
   const [isPending, startTransition] = useTransition()
@@ -47,8 +49,9 @@ export default function LogoUploader({ currentLogoUrl, restaurantId }: LogoUploa
             type="file"
             accept="image/jpeg,image/png,image/webp"
             className="w-auto text-sm"
+            disabled={isReadOnly}
           />
-          <Button type="submit" variant="outline" size="sm" disabled={isPending}>
+          <Button type="submit" variant="outline" size="sm" disabled={isPending || isReadOnly}>
             {isPending ? 'Uploading…' : 'Upload'}
           </Button>
         </form>

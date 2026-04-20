@@ -1,5 +1,6 @@
 'use client'
 import { useFormState } from 'react-dom'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import { updateRestaurantInfoAction } from '@/lib/actions/settings'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -17,6 +18,7 @@ interface RestaurantInfoFormProps {
 }
 
 export default function RestaurantInfoForm({ restaurant }: RestaurantInfoFormProps) {
+  const { isReadOnly } = useDashboardAccess()
   const [state, action, isPending] = useFormState(updateRestaurantInfoAction, initialState)
   const [isPublished, setIsPublished] = useState(restaurant.is_published)
   const [slug, setSlug] = useState(restaurant.slug ?? '')
@@ -28,6 +30,7 @@ export default function RestaurantInfoForm({ restaurant }: RestaurantInfoFormPro
 
   return (
     <form action={action} className="space-y-4">
+      <fieldset disabled={isReadOnly} className="min-w-0 space-y-4 border-0 p-0">
       {'error' in state && state.error && (
         <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {state.error}
@@ -139,6 +142,7 @@ export default function RestaurantInfoForm({ restaurant }: RestaurantInfoFormPro
       <Button type="submit" disabled={isPending}>
         {isPending ? 'Saving…' : 'Save changes'}
       </Button>
+      </fieldset>
     </form>
   )
 }

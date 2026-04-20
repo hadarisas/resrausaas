@@ -275,6 +275,14 @@ export type Database = {
         Args: { p_restaurant_id: string }
         Returns: undefined
       }
+      platform_tenant_owner_directory: {
+        Args: Record<string, never>
+        Returns: {
+          restaurant_id: string
+          full_name: string | null
+          email: string | null
+        }[]
+      }
     }
     Enums: {
       reservation_status: 'pending' | 'confirmed' | 'seated' | 'completed' | 'cancelled' | 'no_show'

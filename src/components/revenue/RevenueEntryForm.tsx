@@ -1,5 +1,6 @@
 'use client'
 import { useFormState } from 'react-dom'
+import { useDashboardAccess } from '@/components/dashboard/DashboardAccessContext'
 import { createRevenueEntryAction } from '@/lib/actions/revenue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,12 +11,14 @@ import type { ActionResult } from '@/types/actions'
 const initialState: ActionResult = { success: false, error: '' }
 
 export default function RevenueEntryForm() {
+  const { isReadOnly } = useDashboardAccess()
   const [state, action, isPending] = useFormState(createRevenueEntryAction, initialState)
 
   const today = new Date().toISOString().split('T')[0]
 
   return (
     <form action={action} className="space-y-4">
+      <fieldset disabled={isReadOnly} className="min-w-0 space-y-4 border-0 p-0">
       {'error' in state && state.error && (
         <p className="text-sm text-destructive">{state.error}</p>
       )}
@@ -53,6 +56,7 @@ export default function RevenueEntryForm() {
       <Button type="submit" disabled={isPending}>
         {isPending ? 'Saving…' : 'Save entry'}
       </Button>
+      </fieldset>
     </form>
   )
 }
