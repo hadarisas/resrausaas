@@ -1,11 +1,18 @@
 # RestaurantSaaS
 
-A multi-tenant SaaS platform where each restaurant gets a public-facing landing page, online reservation form, and a private admin dashboard for managing menus, reservations, and revenue.
+A multi-tenant SaaS platform where each restaurant gets a public-facing landing page, online reservation form, and a private admin dashboard for managing menus, reservations, and revenue. The stack is designed to deploy as a **SaaS product on Vercel** with Supabase as the backend.
+
+## Live demo (Vercel)
+
+The reference deployment runs at **[resrausaas.vercel.app](https://resrausaas.vercel.app)** (Next.js App Router + Supabase).
+
+**Aurelia demo tenant (public restaurant site):** **[resrausaas.vercel.app/aurelia](https://resrausaas.vercel.app/aurelia)** — full guest experience (theme, hero, menu, gallery, reservation form, opening hours) for the seeded **Aurelia** owner restaurant. The same dataset can be reproduced in any environment with `supabase/migrations/005_seed_aurelia_demo.sql` (see [Optional / follow-up migrations](#optional--follow-up-migrations) under Supabase setup, and [Restaurant Demo Seed](#restaurant-demo-seed)).
 
 ---
 
 ## Table of Contents
 
+- [Live demo (Vercel)](#live-demo-vercel)
 - [How It Works](#how-it-works)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -143,11 +150,11 @@ Creates:
 
 Then optionally run **`003_seed.sql`** for demo data (see [Restaurant Demo Seed](#restaurant-demo-seed)).
 
-**Optional / follow-up migrations**
+### Optional / follow-up migrations
 
 | File | When to run |
 | ---- | ----------- |
-| `005_seed_aurelia_demo.sql` | Optional richer demo tenant (see repo comments in that file). |
+| `005_seed_aurelia_demo.sql` | Optional **Aurelia** demo tenant (slug `aurelia`). Live public page: [resrausaas.vercel.app/aurelia](https://resrausaas.vercel.app/aurelia). See repo comments in that file. |
 | `006_lifestyle_cafe_theme.sql` | **Only if** your database was created from an **older** `001_schema.sql` that did not list `lifestyle-cafe` on `restaurant_theme`. It adds the enum value idempotently. **Skip** if Step 1 used the current `001_schema.sql` (the value is already defined there). |
 | `007_public_brochure_and_reservations.sql` | **If** you already ran `001`–`004` before this file existed: updates public RLS so **read-only** tenants keep a visible brochure site while **online reservations** stay gated to active trial/paid plans; stops auto-unpublishing on expiry. |
 | `008_platform_tenant_owner_directory.sql` | Adds `platform_tenant_owner_directory()` so the **platform admin** UI can list each tenant’s **owner full name** (from `profiles`) and **login email** (from `auth.users`). |
@@ -227,6 +234,8 @@ npm run lint         # ESLint
 ---
 
 ## Vercel Deployment
+
+This project is intended to run as a **multi-tenant SaaS** on Vercel (see [Live demo (Vercel)](#live-demo-vercel) for the public **resrausaas.vercel.app** deployment and the **Aurelia** tenant at `/aurelia`).
 
 ### 1. Push to GitHub
 
@@ -420,6 +429,8 @@ Platform login uses the same Supabase session and callback as the rest of the ap
 ---
 
 ## Restaurant Demo Seed
+
+For a **hosted example** of a full public restaurant page on Vercel, see the **Aurelia** tenant at **[resrausaas.vercel.app/aurelia](https://resrausaas.vercel.app/aurelia)** (data from `005_seed_aurelia_demo.sql` on the deployment’s Supabase project).
 
 `supabase/migrations/003_seed.sql` populates a demo restaurant called **Bella Vista Ristorante** with realistic Italian menu data, upcoming reservations, and 30 days of revenue.
 
